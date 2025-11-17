@@ -165,7 +165,7 @@ export function CommentSection({
                         <span>{formatDate(comment.createdAt)}</span>
                       </div>
 
-                      {(userData?.userId === comment.userId || userData?.isAdmin) && (
+                      {(userData?.walletAddress === comment.user.walletAddress || userData?.isAdmin) && (
                         <Button
                           variant="ghost"
                           size="icon"

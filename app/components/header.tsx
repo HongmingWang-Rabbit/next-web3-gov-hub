@@ -2,14 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ConnectKitButton } from 'connectkit';
-import { useAuth } from '@/hooks/useAuth';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/providers/auth-provider';
 import { formatAddress } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
+import { UnifiedAuthButton } from './unified-auth-button';
 
 export function Header() {
-  const { isConnected, isAuthenticated, userData, signIn, signOut } = useAuth();
+  const { isAuthenticated, userData } = useAuth();
 
   return (
     <header className="border-b border-[rgb(var(--border))] bg-[rgb(var(--card))]">
@@ -70,7 +69,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            {isConnected && isAuthenticated && userData && (
+            {isAuthenticated && userData && (
               <div className="text-sm">
                 <span className="text-[rgb(var(--muted-foreground))]">
                   {formatAddress(userData.walletAddress)}
@@ -83,19 +82,7 @@ export function Header() {
               </div>
             )}
 
-            <ConnectKitButton />
-
-            {isConnected && !isAuthenticated && (
-              <Button onClick={signIn} size="sm">
-                Sign In
-              </Button>
-            )}
-
-            {isAuthenticated && (
-              <Button onClick={signOut} variant="outline" size="sm">
-                Sign Out
-              </Button>
-            )}
+            <UnifiedAuthButton />
           </div>
         </div>
       </div>
