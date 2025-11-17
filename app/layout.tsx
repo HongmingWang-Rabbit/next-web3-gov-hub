@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Web3Provider } from '@/providers/web3-provider';
 import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -17,12 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen" suppressHydrationWarning>
+      <body className="antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         <Web3Provider>
           <Header />
-          <main className="container mx-auto px-4 py-8">
+          <main className="container mx-auto px-4 py-8 flex-1">
             {children}
           </main>
+          <Footer />
         </Web3Provider>
       </body>
     </html>

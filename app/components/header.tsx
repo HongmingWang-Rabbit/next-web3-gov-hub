@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ConnectKitButton } from 'connectkit';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -15,18 +16,46 @@ export function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-2xl font-bold text-[rgb(var(--primary))]">
-              {siteConfig.name}
-            </Link>
+            <a
+              href={siteConfig.url}
+              className="flex items-center gap-3"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {siteConfig.logo.image && (
+                <Image
+                  src={siteConfig.logo.image}
+                  alt={siteConfig.name}
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              )}
+              <span className="text-2xl font-bold text-[rgb(var(--primary))]">
+                {siteConfig.name}
+              </span>
+            </a>
             <nav className="hidden md:flex items-center gap-6">
               {siteConfig.navigation.main.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm hover:text-[rgb(var(--primary))] transition-colors"
-                >
-                  {item.name}
-                </Link>
+                'external' in item && item.external ? (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm hover:text-[rgb(var(--primary))] transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm hover:text-[rgb(var(--primary))] transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
               {userData?.isAdmin && siteConfig.navigation.admin.map((item) => (
                 <Link
