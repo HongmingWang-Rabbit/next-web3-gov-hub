@@ -1,0 +1,77 @@
+// Prisma schema for PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  walletAddress String    @unique
+  isAdmin       Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+
+  posts         Post[]
+  comments      Comment[]
+  votes         Vote[]
+
+  @@index([walletAddress])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  coverImage  String?
+  content     String    @db.Text
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String
+
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String   @db.Text
+  createdAt DateTime @default(now())
+  postId    String
+  userId    String
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Vote {
+  id         String   @id @default(cuid())
+  value      Int      // 1 for upvote, -1 for downvote
+  targetType String   // "post" or "comment"
+  targetId   String   // ID of the post or comment
+  createdAt  DateTime @default(now())
+  userId     String
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Note: targetId is polymorphic - it references either Post.id or Comment.id
+  // depending on targetType. Prisma doesn't natively support polymorphic relations,
+  // so we handle this logic in the application layer.
+
+  // Ensure one vote per user per target
+  @@unique([userId, targetType, targetId])
+  @@index([targetType, targetId])
+  @@index([userId])
+}
