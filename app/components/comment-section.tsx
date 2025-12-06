@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { VoteButtons } from '@/components/vote-buttons';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/providers/auth-provider';
 import { formatDate, formatAddress } from '@/lib/utils';
 import { MessageSquare, Trash2 } from 'lucide-react';
 

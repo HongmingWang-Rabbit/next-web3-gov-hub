@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/providers/auth-provider';
 import { cn } from '@/lib/utils';
 
 interface VoteButtonsProps {
