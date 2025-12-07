@@ -12,7 +12,7 @@ const urls = {
 
   // Product URLs
   dex: "https://perp.honeypotfinance.xyz/",
-  earn: "https://honeypotfinance.xyz/earn",
+  earn: "https://points.honeypotfinance.xyz/loyalty",
   docs: "https://docs.honeypotfinance.xyz/",
   pot2pump: "https://pot2pump.honeypotfinance.xyz/",
   honeygenesis: "https://magiceden.io/collections/berachain/honeygenesis-44",
